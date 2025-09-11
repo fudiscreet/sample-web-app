@@ -1,6 +1,7 @@
 FROM node:24
 
 # 基本ツールをインストール
+USER root
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
       bash git openssh-client curl nano sudo \
