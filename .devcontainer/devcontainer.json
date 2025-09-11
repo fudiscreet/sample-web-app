@@ -1,0 +1,43 @@
+{
+  "name": "node-postgres-dev",
+  "dockerComposeFile": "../docker-compose.yaml",
+  "service": "backend",
+  "workspaceFolder": "/workspace",
+  "shutdownAction": "stopCompose",
+
+  "forwardPorts": [3000, 8000, 5432, 5050],
+
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "MS-CEINTL.vscode-language-pack-ja",
+        "vivaxy.vscode-conventional-commits",
+        "oderwat.indent-rainbow",
+        "christian-kohler.path-intellisense",
+        "esbenp.prettier-vscode",
+        "ms-azuretools.vscode-containers",
+        "eamodio.gitlens",
+        "hediet.vscode-drawio",
+        "GitHub.copilot",
+        "GitHub.copilot-chat",
+        "PKief.material-icon-theme"
+      ],
+      "settings": {
+        "editor.formatOnSave": true,
+        "files.exclude": {
+          "**/node_modules": true,
+          "**/dist": true
+        }
+      }
+    }
+  },
+
+  "postCreateCommand": "bash .devcontainer/post_create.sh",
+
+  "postAttachCommand": {
+    "server": "workbench.action.terminal.new"
+  },
+  "remoteEnv": {
+    "TZ": "Asia/Tokyo"
+  }
+}

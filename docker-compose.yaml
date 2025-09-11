@@ -1,0 +1,80 @@
+services:
+  database:
+    image: postgres:18rc1
+    container_name: db
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: postgres
+      TZ: Asia/Tokyo
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./db:/docker-entrypoint-initdb.d
+
+  pgAdmin4:
+    image: dpage/pgadmin4:latest
+    depends_on:
+      - database
+    container_name: pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: user@example.com
+      PGADMIN_DEFAULT_PASSWORD: password
+      PGADMIN_CONFIG_SERVER_MODE: "False"
+      PGADMIN_CONFIG_MASTER_PASSWORD: "False"
+    ports:
+      - 5050:80
+    volumes:
+      - pgadmin_data:/var/lib/pgadmin
+      - ./config/servers.json:/pgadmin4/servers.json:ro
+
+  backend:
+    image: node:24
+    container_name: backend
+    working_dir: /workspace/backend
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/workspace:cached
+    environment:
+      - NODE_ENV=development
+    command: sleep infinity
+    tty: true
+    depends_on:
+      - database
+
+  frontend:
+    image: node:24
+    container_name: frontend
+    working_dir: /workspace/frontend
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/workspace:cached
+    environment:
+      - NODE_ENV=development
+    command: sleep infinity
+    tty: true
+    depends_on:
+      - backend
+
+  devcontainer:
+    image: node:24
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: devcontainer
+    working_dir: /workspace
+    volumes:
+      - ..:/workspace:cached
+    command: sleep infinity
+    tty: true
+    depends_on:
+      - backend
+      - frontend
+      - database
+
+volumes:
+  pgdata:
+  pgadmin_data:
