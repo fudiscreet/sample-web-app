@@ -3,7 +3,7 @@ FROM node:24
 # 基本ツールをインストール
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
-       bash git openssh-client curl nano sudo \
+      bash git openssh-client curl nano sudo \
     && rm -rf /var/lib/apt/lists/*
 
 # yarn をインストール（既存の場合は上書き）

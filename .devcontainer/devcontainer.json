@@ -20,7 +20,8 @@
         "hediet.vscode-drawio",
         "GitHub.copilot",
         "GitHub.copilot-chat",
-        "PKief.material-icon-theme"
+        "PKief.material-icon-theme",
+        "EditorConfig.EditorConfig"
       ],
       "settings": {
         "editor.formatOnSave": true,
